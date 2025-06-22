@@ -30,8 +30,13 @@ inherit autotools-brokensep
 S = "${WORKDIR}/git"
 
 do_configure:prepend() {
-   cd ${S}
-   ./autogen.sh
+    if ${@bb.utils.contains('PREFERRED_PROVIDER_virtual/qat', 'qatlib', 'true', 'false', d)}; then
+        bberror "\nThe current version of QATzip cannot be built with qatlib.\nPlease select either qat17 or qat20 as the PREFERRED_PROVIDER_virtual/qat instead."
+        exit 1
+    fi
+
+    cd ${S}
+    ./autogen.sh
 }
 
 do_compile() {
