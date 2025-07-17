@@ -1,0 +1,42 @@
+From 17a335355c612e820de85f5c195cb6f6d23e7bb0 Mon Sep 17 00:00:00 2001
+From: Liwei Song <liwei.song@windriver.com>
+Date: Thu, 17 Jul 2025 01:55:09 +0000
+Subject: [PATCH] lac_sync.h: increase the timeout of
+ LAC_SYM_SYNC_CALLBACK_TIMEOUT
+
+When run ECDSA test "cpa_sample_code signOfLife=1 runTests=8", will get
+a timeout error as below:
+
+[error] osalSemaphoreWait(): Connection timed out
+[error] LacSym_Perform() - : Callback timed out
+
+The error can happen when system is under heavy loads or high data rates,
+This will cause a synchronous operation's wait-queue timing out.
+
+To fix this, refer to QAT20, increase the timeout of
+LAC_SYM_SYNC_CALLBACK_TIMEOUT to 0x5000(ms), this can satisfy a high
+pressure system or some old boards with low performance.
+
+Upstream-Status: Inappropriate
+
+Signed-off-by: Liwei Song <liwei.song@windriver.com>
+---
+ lookaside/access_layer/src/common/include/lac_sync.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/quickassist/lookaside/access_layer/src/common/include/lac_sync.h b/quickassist/lookaside/access_layer/src/common/include/lac_sync.h
+index e3e089649f49..fde65db0e8c9 100644
+--- a/quickassist/lookaside/access_layer/src/common/include/lac_sync.h
++++ b/quickassist/lookaside/access_layer/src/common/include/lac_sync.h
+@@ -109,7 +109,7 @@ typedef struct lac_sync_op_data_s
+  * This is derived from the max latency of a PKE request  + 1 sec
+  */
+ 
+-#define LAC_SYM_SYNC_CALLBACK_TIMEOUT (300)
++#define LAC_SYM_SYNC_CALLBACK_TIMEOUT (0x5000)
+ /**< @ingroup LacSyn
+  * Timeout for wait for symmetric response in msecs
+  */
+-- 
+2.49.0
+

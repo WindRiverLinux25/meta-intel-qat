@@ -17,6 +17,7 @@ SRC_URI = "https://downloadmirror.intel.com/852035/QAT.L.4.28.0-00004.tar.gz;sub
            file://qat17-Added-include-dir-path.patch \
            file://qat17-qat-add-install-target-and-add-folder.patch \
            file://qat17-qat-remove-local-path-from-makefile.patch \
+           file://qat17-lac_sync.h-increase-the-timeout-of-LAC_SYM_SYNC_CALL.patch \
            file://0001-usdm_drv-convert-mutex_lock-to-mutex_trylock-to-avio.patch \
           "
 
